@@ -25,10 +25,10 @@ public class TestFile {
         
         System.out.println("--------READ IMAGE----------");
         
-        System.out.println(image1);
-        System.out.println("Ancho de la imagen: " + image1.getWidth());
-        System.out.println("Alto de la imagen: " + image1.getHeight());
-        System.out.println("Tipo de color: " + image1.getType());
+        //System.out.println(image1);
+        System.out.println("Image Width: " + image1.getWidth());
+        System.out.println("Image Height: " + image1.getHeight());
+        System.out.println("Image color type: " + image1.getType());
 
         // Écriture de l'image PGM traitée dans un nouveau fichier
         //String filePath, int[][] pixelData, int width, int height, int maxPixelValue
