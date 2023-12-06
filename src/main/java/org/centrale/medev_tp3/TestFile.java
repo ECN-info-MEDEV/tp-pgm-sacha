@@ -1,6 +1,7 @@
 package org.centrale.medev_tp3;
 
 import java.io.IOException;
+import javax.swing.SwingUtilities;
 
 public class TestFile {
     public static void main(String[] args) throws IOException {
@@ -29,11 +30,14 @@ public class TestFile {
         
         System.out.println("\n-------- DIFFERENCE BETWEEN 2 IMAGES ----------\n");
 
-        //PGM_tools.showImg(image1);
-        
-        int [][] test1 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        int [][] test2 = {{2, 2, 4}, {4, 15, 6}, {6, 8, 8}};
-        int [][] diff = PGM_tools.diffImg(test1,test2);
+        int [][] test1 = {{1,0,0,0,-1}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
+        int [][] test2 = {{0,0,0,0,0}, {0,0,0,0,0}, {0,-5,9,-5,0}, {0,0,0,0,0}, {1,0,0,0,-1}};        int [][] diff = PGM_tools.diffImg(test1,test2);
         PGM_tools.showImg(diff);
+        
+        System.out.println("\n-------- VISUALIZATION ----------\n");
+
+        // Run the GUI codes on Event-Dispatching thread for thread safety
+        PGM_visual display1 = new PGM_visual(image1);
+        display1.showImg();
     }
 }

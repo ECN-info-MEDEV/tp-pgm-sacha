@@ -42,12 +42,10 @@ public class PGM_tools {
                     }
                 }
             }
-
             // Check if all pixels were read
             if (allPixels.size() != width * height) {
                 throw new IOException("The PGM file does not contain the expected number of pixels.");
             }
-
             // Populate the 2D array with the pixel values
             for (int i = 0, pixelIndex = 0; i < height; i++) {
                 for (int j = 0; j < width; j++, pixelIndex++) {
@@ -60,26 +58,6 @@ public class PGM_tools {
             pixelValues = null; 
         }
         return pixelValues;
-    }
-    
-        // Function to calculate the histogram of a 2D array of pixel values
-    public static int[] histogram(int[][] pixelValues) {
-        int width = pixelValues[0].length;
-        int height = pixelValues.length;
-
-        int[] histogram = new int[256]; // For grayscale pixel values from 0 to 255
-
-        // Traverse each pixel of the image
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int pixelValue = pixelValues[y][x];
-
-                // Increment the histogram counter for this pixel value
-                histogram[pixelValue]++;
-            }
-        }
-
-        return histogram;
     }
 
     public static void writePGM(String filePath, int[][] pixelData, int maxPixelValue) throws IOException {
@@ -161,6 +139,51 @@ public class PGM_tools {
             System.out.println();
         }
     }
+    
+            // Function to calculate the histogram of a 2D array of pixel values
+    public static int[] histogram(int[][] pixelValues) {
+        int width = pixelValues[0].length;
+        int height = pixelValues.length;
+
+        int[] histogram = new int[256]; // For grayscale pixel values from 0 to 255
+
+        // Traverse each pixel of the image
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int pixelValue = pixelValues[y][x];
+
+                // Increment the histogram counter for this pixel value
+                histogram[pixelValue]++;
+            }
+        }
+
+        return histogram;
+    }
+    
+    public static int[][] histogramToImage(int[] histogram, int width, int height) {
+        // Normalize the histogram to the height of the image
+        int maxHistogramValue = getMaxVal(histogram);
+        float scale = (float) height / maxHistogramValue;
+        int[][] histogramImage = new int[height][width];
+
+        // Invert the y-axis because 0,0 is top-left in image space
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (x < histogram.length) {
+                    // Only plot if the histogram has a value for this x position
+                    if (histogram[x] * scale > (height - y)) {
+                        histogramImage[y][x] = 0;
+                    } else {
+                        histogramImage[y][x] = 255;
+                    }
+                } else {
+                    histogramImage[y][x] = 255; // Fill the remaining image with white if the width is more than 256
+                }
+            }
+        }
+        return histogramImage;
+    }
+
 }
 
 
