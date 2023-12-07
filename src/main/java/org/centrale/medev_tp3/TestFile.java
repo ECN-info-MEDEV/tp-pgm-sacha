@@ -11,33 +11,41 @@ public class TestFile {
         String output1 = dir + "/coins_output.pgm";
         String outputHistogram1 = dir + "coins_output_histogram.pgm";
 
-        int[][] image1 = PGM_tools.readPGM(input1);
+        int[][] img1 = PGM_tools.readPGM(input1);
 
         System.out.println("\n-------- READ IMAGE ----------\n");
 
         // Display image properties
-        System.out.println("Image width: " + image1[0].length);
-        System.out.println("Image height: " + image1.length);
-        System.out.println("");
+        System.out.println("Image width: " + img1[0].length);
+        System.out.println("Image height: " + img1.length);
 
-        // Display the first 10x10 pixel chunk of the image
-        for (int i = 0; i < Math.min(10, image1.length); i++) {
-            for (int j = 0; j < Math.min(10, image1[i].length); j++) {
-                System.out.print(image1[i][j] + " ");
-            }
-            System.out.println();
-        }
-        
-        System.out.println("\n-------- DIFFERENCE BETWEEN 2 IMAGES ----------\n");
-
-        int [][] test1 = {{1,0,0,0,-1}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}, {0,0,0,0,0}};
-        int [][] test2 = {{0,0,0,0,0}, {0,0,0,0,0}, {0,-5,9,-5,0}, {0,0,0,0,0}, {1,0,0,0,-1}};        int [][] diff = PGM_tools.diffImg(test1,test2);
-        PGM_tools.showImg(diff);
-        
         System.out.println("\n-------- VISUALIZATION ----------\n");
 
-        // Run the GUI codes on Event-Dispatching thread for thread safety
-        PGM_visual display1 = new PGM_visual(image1);
-        display1.showImg();
+        PGM_visual disp1 = new PGM_visual();
+        disp1.setTitle("Coins");
+        disp1.showImg(img1);
+        
+        System.out.println("\n-------- THRESHOLD ----------\n");
+        
+        PGM_visual disp2 = new PGM_visual();
+        int[][] tre1 = PGM_tools.applyThreshold(img1, 100);
+        disp2.setTitle("Thresholded image");
+        disp2.showImg(tre1);
+        
+        System.out.println("\n-------- DIFFERENCE ----------\n");
+        
+        PGM_visual disp3 = new PGM_visual();
+        int[][] diff1 = PGM_tools.diffImg(img1, tre1);
+        disp3.setTitle("Difference");
+        disp3.showImg(diff1);
+        
+        System.out.println("\n-------- HISTOGRAM ----------\n");
+        
+        PGM_visual disp4 = new PGM_visual();
+        int[] hist1 = PGM_tools.histogram(img1);
+        int[][] histImg1 = PGM_tools.histogramToImage(hist1, img1[0].length, img1.length);
+        disp4.setTitle("Histogramme");
+        disp4.showImg(histImg1);
+        
     }
 }

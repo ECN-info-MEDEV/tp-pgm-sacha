@@ -7,17 +7,12 @@ package org.centrale.medev_tp3;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.io.IOException;
 
 public class PGM_visual extends JFrame {
 
-    private int[][] img;
-    private String title = "";
-
-    public PGM_visual(int[][] img) {
-        this.img = img;
-    }
-    
     public PGM_visual() {
+        this.setTitle("");
     }
     
     private BufferedImage matrixToBI(int[][] matrix) {
@@ -36,17 +31,23 @@ public class PGM_visual extends JFrame {
         return bufferedImage;
     }
     
-    public void showImg(){
-        setTitle(title);
+    public void showImg(int[][] img){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BufferedImage image = matrixToBI(img);
         ImageIcon icon = new ImageIcon(image);
         JLabel label = new JLabel(icon);
         add(label);
         pack(); 
-        setLocationRelativeTo(null);
         setVisible(true);
     }
     
-    
+    public void showPGM(String filePath) throws IOException{
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        BufferedImage image = matrixToBI(PGM_tools.readPGM(filePath));
+        ImageIcon icon = new ImageIcon(image);
+        JLabel label = new JLabel(icon);
+        add(label);
+        pack(); 
+        setVisible(true);
+    }
 }

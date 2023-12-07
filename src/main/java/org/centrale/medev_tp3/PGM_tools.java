@@ -32,7 +32,6 @@ public class PGM_tools {
             int maxPixelValue = Integer.parseInt(reader.readLine().trim());
             pixelValues = new int[height][width];
 
-            // Read all pixel values linearly, irrespective of newlines
             List<Integer> allPixels = new ArrayList<>();
             while ((line = reader.readLine()) != null && allPixels.size() < width * height) {
                 String[] values = line.trim().split("\\s+");
@@ -92,12 +91,11 @@ public class PGM_tools {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int pixelValue = pixelValues[y][x];
-
-                // Apply thresholding
-                int newPixelValue = (pixelValue < threshold) ? 0 : 255;
-
-                // Set the new pixel value on the thresholded image
-                thresholdedValues[y][x] = newPixelValue;
+                if (threshold < pixelValue){
+                    thresholdedValues[y][x] = pixelValue;
+                } else{
+                    thresholdedValues[y][x] = 255;
+                }
             }
         }
         return thresholdedValues;
